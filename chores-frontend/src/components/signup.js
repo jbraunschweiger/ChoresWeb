@@ -1,9 +1,9 @@
 import React from 'react';
-import newUser from '../util/auth';
+import { newUser } from './../util/auth';
 
 function Signup() {
     return (
-        <form class="form-signin" style={pageStyles} submit={submit}>
+        <form class="form-signin" style={pageStyles} onsubmit={submit}>
             <div class="form-group" style={formStyles}>
                 <img class="mb-4" src={logoURL} alt="" width="72" height="72" />
                 <h1 class="h3 mb-3 font-weight-heavy">Please Sign Up</h1>
@@ -54,7 +54,7 @@ function Signup() {
                     <input type="password" id="confirmPassword" class="form-control" style={inputStylesBottom} placeholder="Confirm Password" required />
                 </div>
                 </div>
-                <button type="submit" style={buttonStyles} class="btn btn-primary">Sign Up</button>
+                <button type="button" style={buttonStyles} class="btn btn-primary" onClick={submit}>Sign Up</button>
                 <p class="mt-5 mb-3 text-muted"> Already have an account? <a href="/login">Sign in!</a></p>
             </div>
         </form>
@@ -64,16 +64,16 @@ function Signup() {
 export default Signup;
 
 function submit() {
-    const name = document.getElementById("displayNameInput").nodeValue;
-    const email = document.getElementById("exampleInputEmail1").nodeValue;
-    const password1 = document.getElementById("exampleInputPassword1").nodeValue;
-    const password2 = document.getElementById("exampleInputPassword2").nodeValue;
+    const name = document.getElementById("inputName").value;
+    const email = document.getElementById("inputEmail").value;
+    const password1 = document.getElementById("inputPassword").value;
+    const password2 = document.getElementById("confirmPassword").value;
     const allFieldsExist = name && email && password1 && password2;
     const passwordsMatch = password1 === password2;
     if (allFieldsExist && passwordsMatch) {
         const user = newUser(email, password1, name);
         if(user) {
-            console.log("Successfully created new user");
+            alert("Successfully created new user");
         }
     }
 }
@@ -114,7 +114,6 @@ const buttonStyles = {
 }
 
 const pageStyles = {
-    display: "-ms-flexbox",
     display: "flex",
     msFlexAlign: "center",
     alignItems: "center",

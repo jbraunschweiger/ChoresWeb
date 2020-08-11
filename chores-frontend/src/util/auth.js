@@ -1,10 +1,13 @@
-import {auth} from "firebase";
+import { auth } from "firebase";
 
 export { newUser };
+export { signInUser };
 
-function newUser(email, password, displayName){
+let currentUser;
+
+async function newUser(email, password, displayName){
     const userPromise = auth().createUserWithEmailAndPassword(email,password);
-    userPromise.then(user => {
+    return userPromise.then(user => {
         user.user.updateProfile(displayName).then(() => {
             return user;
         }).catch(() => {
@@ -15,4 +18,16 @@ function newUser(email, password, displayName){
     });
 }
 
-export default { newUser };
+async function signInUser(email, password) {
+    return auth().signInWithEmailAndPassword(email, password).then(user => {
+        currentUser = user;
+    });
+}
+
+/*
+auth().onAuthStateChanged(user => {
+    currentUser = user;
+})
+*/
+
+export default { newUser, signInUser };

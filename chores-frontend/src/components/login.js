@@ -1,4 +1,5 @@
 import React from 'react';
+import { signInUser } from './../util/auth';
 
 function Login() {
     return (
@@ -30,7 +31,7 @@ function Login() {
                         <input type="password" id="inputPassword" class="form-control" style={inputStylesBottom} placeholder="Password" required />
                     </div>
                 </div>
-                <button type="submit" style={buttonStyles} class="btn btn-primary">Log In</button>
+                <button type="button" style={buttonStyles} class="btn btn-primary" onClick={login}>Log In</button>
                 <p class="mt-5 mb-3 text-muted"> Need an account? <a href="/signup">Sign up!</a></p>
             </div>
         </form>
@@ -40,6 +41,16 @@ function Login() {
 export default Login;
 
 //////////////////////////////////////////////////
+
+async function login() {
+    const email = document.getElementById("inputEmail").value;
+    const password = document.getElementById("inputPassword").value;
+    signInUser(email, password).then(() => {
+        alert("Sign in successful");
+    }).catch(error => {
+        console.error(error);
+    });
+}
 
 const formStyles = {
     width: "100%",
@@ -67,7 +78,6 @@ const buttonStyles = {
 }
 
 const pageStyles = {
-    display: "-ms-flexbox",
     display: "flex",
     msFlexAlign: "center",
     alignItems: "center",
