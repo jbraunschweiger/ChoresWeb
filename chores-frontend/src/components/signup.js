@@ -56,6 +56,9 @@ function Signup() {
                 </div>
                 <button type="button" style={buttonStyles} class="btn btn-primary" onClick={submit}>Sign Up</button>
                 <p class="mt-5 mb-3 text-muted"> Already have an account? <a href="/login">Sign in!</a></p>
+                <div class="alert alert-danger" role="alert" id="signup-failed" hidden={true}>
+                    Signup failed, please try again.
+                </div>
             </div>
         </form>
     );
@@ -71,10 +74,12 @@ function submit() {
     const allFieldsExist = name && email && password1 && password2;
     const passwordsMatch = password1 === password2;
     if (allFieldsExist && passwordsMatch) {
-        const user = newUser(email, password1, name);
-        if(user) {
+        return newUser(email, password1, name).then(user => {
             alert("Successfully created new user");
-        }
+        }).catch(error => {
+            const alert = document.getElementById("signup-failed");
+            alert.hidden = false;
+        });
     }
 }
 

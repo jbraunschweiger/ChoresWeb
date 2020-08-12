@@ -2,6 +2,7 @@ import { auth } from "firebase";
 
 export { newUser };
 export { signInUser };
+export { signOutUser };
 
 let currentUser;
 
@@ -10,11 +11,7 @@ async function newUser(email, password, displayName){
     return userPromise.then(user => {
         user.user.updateProfile(displayName).then(() => {
             return user;
-        }).catch(() => {
-            return null;
-        })
-    }).catch(() => {
-        return null;
+        });
     });
 }
 
@@ -24,10 +21,16 @@ async function signInUser(email, password) {
     });
 }
 
+async function signOutUser() {
+    return auth().signOut().then(() => {
+        currentUser = null;
+    });
+}
+
 /*
 auth().onAuthStateChanged(user => {
     currentUser = user;
 })
 */
 
-export default { newUser, signInUser };
+export default { newUser, signInUser, signOutUser };

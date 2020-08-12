@@ -33,6 +33,9 @@ function Login() {
                 </div>
                 <button type="button" style={buttonStyles} class="btn btn-primary" onClick={login}>Log In</button>
                 <p class="mt-5 mb-3 text-muted"> Need an account? <a href="/signup">Sign up!</a></p>
+                <div class="alert alert-danger" role="alert" id="login-failed" hidden={true}>
+                    Invalid login credentials, please try again.
+                </div>
             </div>
         </form>
     );
@@ -48,6 +51,8 @@ async function login() {
     signInUser(email, password).then(() => {
         alert("Sign in successful");
     }).catch(error => {
+        const alert = document.getElementById("login-failed");
+        alert.hidden = false;
         console.error(error);
     });
 }
