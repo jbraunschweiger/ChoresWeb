@@ -8,16 +8,16 @@ class PersonItem extends React.Component {
 
     render() {
         return(
-            <div>
-                <button class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-toggle="modal" data-target={'#' + this.props.documentID + "Modal"}>
+            <div >
+                <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-toggle="modal" data-target={'#personModal' + this.props.index}>
                     {this.props.person.name}
                     {this.props.person.registered ? (
                         <span class="badge badge-success">joined</span>
                     ) : (
                         <span class="badge badge-danger">invited</span>
                     )}
-                </button>
-                <PersonModal documentID={this.props.documentID} person={this.props.person}/>
+                </a>
+                <PersonModal documentID={this.props.documentID} person={this.props.person} modalID={'personModal' + this.props.index}/>
             </div>
         );
     }

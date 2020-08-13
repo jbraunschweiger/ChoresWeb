@@ -43,19 +43,15 @@ class Home extends React.Component {
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Hello, {this.state.userEmail}
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
                             <button class="dropdown-item" onClick={signOutUser}>Sign Out</button>
                             <div class="dropdown-divider"></div>
                             <button class="dropdown-item btn-danger" onClick={signOutUser}>Sign Out</button>
                         </div>
                     </a>
                 </nav>
-                <h1>Hello, world!</h1>
-                {this.state.userID ? (<h1> User ID: {this.state.userID}</h1>) : (<h1>Not signed in</h1>)}
-                <button onClick={signOutUser}> Sign Out</button>
-                <button onClick={testGetPeople}>Get People</button>
-
-                <div class="container">
+             
+                <div class="container" style={containerStyle}>
                     <div class="row">
                         <div class="col-md">
                             <PeoplePane></PeoplePane>
@@ -79,5 +75,11 @@ function testGetPeople() {
         console.log(snapshot);
     });
 }
+
+//////////////////////////////////////////////////
+
+const containerStyle = {
+    marginTop: "60px",
+};
 
 const logoURL = "https://image.flaticon.com/icons/svg/56/56930.svg";
