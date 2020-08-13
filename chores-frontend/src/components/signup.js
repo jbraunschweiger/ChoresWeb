@@ -56,6 +56,7 @@ function Signup() {
                 </div>
                 <button type="button" style={buttonStyles} class="btn btn-primary" onClick={submit}>Sign Up</button>
                 <p class="mt-5 mb-3 text-muted"> Already have an account? <a href="/login">Sign in!</a></p>
+                
                 <div class="alert alert-danger" role="alert" id="signup-failed" hidden={true}>
                     Signup failed, please try again.
                 </div>
@@ -71,16 +72,56 @@ function submit() {
     const email = document.getElementById("inputEmail").value;
     const password1 = document.getElementById("inputPassword").value;
     const password2 = document.getElementById("confirmPassword").value;
-    const allFieldsExist = name && email && password1 && password2;
-    const passwordsMatch = password1 === password2;
-    if (allFieldsExist && passwordsMatch) {
+
+    const allFieldsExist = checkEnteredFields(name, email, password1, password2);
+    const passwordsValid = checkPasswordsValid(password1, password2);
+
+    if (allFieldsExist && passwordsValid) {
         return newUser(email, password1, name).then(user => {
-            alert("Successfully created new user");
+            window.location.href = "/home";
         }).catch(error => {
-            const alert = document.getElementById("signup-failed");
-            alert.hidden = false;
+            alertUser("Signup failed, please try again.");
+            console.log(error);
         });
     }
+}
+
+function checkEnteredFields(name, email, pass1, pass2) {
+    if(!name) {
+        alertUser("You must enter your name.");
+        return false;
+    }
+    if(!email) {
+        alertUser("You must enter your email.");
+        return false;
+    }
+    if(!pass1) {
+        alertUser("You must enter a password.");
+        return false;
+    }
+    if(!pass2) {
+        alertUser("You must confirm your password.");
+        return false;
+    }
+    return true;
+}
+
+function checkPasswordsValid(pass1, pass2) {
+    if(pass1.length < 6) {
+        alertUser("Entered password is too short.")
+        return false;
+    } 
+    if(pass1 !== pass2) {
+        alertUser("Entered passwords dont match.");
+        return false;
+    }
+    return true;
+}
+
+function alertUser(message) {
+    const alert = document.getElementById("signup-failed");
+    alert.innerHTML = message;
+    alert.hidden = false;
 }
 
 //////////////////////////////////////////////////

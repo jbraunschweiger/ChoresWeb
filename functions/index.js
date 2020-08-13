@@ -26,9 +26,13 @@ exports.newUser = functions.auth.user().onCreate((user) => {
         user.displayName = "Enter Name";
     }
     const documentData = {
-        uid: user.uid,
         name: user.displayName,
     }
-    const promise = admin.firestore().collection('users').add()
+    const promise = admin.firestore().collection('users').doc(user.uid).set(documentData);
+    return promise;
+});
+
+exports.removeUser = functions.auth.user().onDelete((user) => {
+    const promise = admin.firestore().collection('users').doc(user.uid).delete();
     return promise;
 });

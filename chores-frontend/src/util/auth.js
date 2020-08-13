@@ -3,13 +3,14 @@ import { auth } from "firebase";
 export { newUser };
 export { signInUser };
 export { signOutUser };
+export { getCurrentUser };
 
-let currentUser;
+let currentUser = null;
 
 async function newUser(email, password, displayName){
     const userPromise = auth().createUserWithEmailAndPassword(email,password);
     return userPromise.then(user => {
-        user.user.updateProfile(displayName).then(() => {
+        user.user.updateProfile({displayName: displayName}).then(() => {
             return user;
         });
     });
@@ -25,6 +26,10 @@ async function signOutUser() {
     return auth().signOut().then(() => {
         currentUser = null;
     });
+}
+
+function getCurrentUser() {
+    return currentUser;
 }
 
 /*
