@@ -1,6 +1,8 @@
 import React from 'react';
 import { getCurrentUser, signOutUser } from './../util/auth';
+import { getPeople } from './../util/firestore';
 import {auth} from 'firebase';
+import { PeoplePane } from './peoplePane';
 
 class Home extends React.Component {
 
@@ -51,6 +53,18 @@ class Home extends React.Component {
                 <h1>Hello, world!</h1>
                 {this.state.userID ? (<h1> User ID: {this.state.userID}</h1>) : (<h1>Not signed in</h1>)}
                 <button onClick={signOutUser}> Sign Out</button>
+                <button onClick={testGetPeople}>Get People</button>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md">
+                            <PeoplePane></PeoplePane>
+                        </div>
+                        <div class="col-md">
+                            <PeoplePane></PeoplePane>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -59,5 +73,11 @@ class Home extends React.Component {
 export {Home};
 
 export default Home;
+
+function testGetPeople() {
+    getPeople().then(snapshot => {
+        console.log(snapshot);
+    });
+}
 
 const logoURL = "https://image.flaticon.com/icons/svg/56/56930.svg";

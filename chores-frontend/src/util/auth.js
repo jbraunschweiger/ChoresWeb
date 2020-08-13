@@ -29,13 +29,13 @@ async function signOutUser() {
 }
 
 function getCurrentUser() {
-    return currentUser;
+    return auth().currentUser;
 }
 
-/*
+
 auth().onAuthStateChanged(user => {
     currentUser = user;
 })
-*/
+
 
 export default { newUser, signInUser, signOutUser };
