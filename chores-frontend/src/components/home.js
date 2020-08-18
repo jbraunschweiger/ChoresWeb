@@ -16,14 +16,16 @@ class Home extends React.Component {
         if(user) {
             this.setState({
                 userID: user.uid,
-                userEmail: user.email
+                userEmail: user.email,
+                userDisplayName: user.displayName
             });
         }
         auth().onAuthStateChanged((user)=>{
             if (user){
                 this.setState({
                     userID: user.uid,
-                    userEmail: user.email
+                    userEmail: user.email,
+                    userDisplayName: user.displayName
                 });
             } else {
                 window.location.href=('/');
@@ -41,7 +43,7 @@ class Home extends React.Component {
                     </a>
                     <a class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Hello, {this.state.userEmail}
+                        Hello, {this.state.userDisplayName}
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
                             <button class="dropdown-item" onClick={signOutUser}>Sign Out</button>

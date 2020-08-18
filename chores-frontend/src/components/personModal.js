@@ -7,7 +7,7 @@ class PersonModal extends React.Component {
 
     render() {
         return(
-            <div class="modal fade" id={this.props.modalID} tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id={this.props.modalID} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -18,7 +18,7 @@ class PersonModal extends React.Component {
                     </div>
                     <div class="modal-body">
                         <div class="input-group mb-3">
-                            <input class="form-control" type="text" id={this.props.modalID + 'TokenText'} value={this.props.person.token} readonly disabled />
+                            <input class="form-control" type="text" id={this.props.modalID + 'TokenText'} value={this.props.person.token} readOnly disabled />
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="button" id={this.props.modalID + 'TokenButton'} onClick={()=>{copyToken(this.props.modalID + 'TokenText', this.props.modalID + 'TokenButton')}}>Copy</button>
                             </div>

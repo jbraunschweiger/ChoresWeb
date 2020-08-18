@@ -1,4 +1,5 @@
 import { auth } from "firebase";
+import { functions } from 'firebase';
 
 export { newUser };
 export { signInUser };

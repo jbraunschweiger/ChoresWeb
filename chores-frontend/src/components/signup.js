@@ -1,5 +1,6 @@
 import React from 'react';
-import { newUser } from './../util/auth';
+import { signInUser } from './../util/auth';
+import { initializeUser } from './../util/functions';
 
 function Signup() {
     return (
@@ -77,8 +78,13 @@ function submit() {
     const passwordsValid = checkPasswordsValid(password1, password2);
 
     if (allFieldsExist && passwordsValid) {
-        return newUser(email, password1, name).then(user => {
-            window.location.href = "/home";
+        return initializeUser(email, password1, name).then(user => {
+            signInUser(email, password1).then(() => {
+                window.location.href = "/home";
+            }).catch(error => {
+                alertUser("Signup failed, please try again.");
+                console.log(error);
+            });
         }).catch(error => {
             alertUser("Signup failed, please try again.");
             console.log(error);

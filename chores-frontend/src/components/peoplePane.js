@@ -9,7 +9,8 @@ class PeoplePane extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            people: []
+            people: [],
+            modalPerson: null
         };
     }
 
@@ -59,6 +60,13 @@ class PeoplePane extends React.Component {
 function invitePerson() {
     const name = document.getElementById("inviteName").value;
     addPerson(name);
+}
+
+function updateModal(person) {
+    this.setState({
+        people: this.state.people,
+        modalPerson: person
+    });
 }
 
 export {PeoplePane};
