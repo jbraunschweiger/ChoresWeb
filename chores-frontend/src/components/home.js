@@ -1,8 +1,10 @@
 import React from 'react';
 import { getCurrentUser, signOutUser } from './../util/auth';
 import { getPeople } from './../util/firestore';
+import { reassignTasks } from './../util/functions';
 import {auth} from 'firebase';
 import { PeoplePane } from './peoplePane';
+import { ChoresPane } from './choresPane';
 
 class Home extends React.Component {
 
@@ -38,7 +40,7 @@ class Home extends React.Component {
             <div>
                 <nav class="navbar navbar-light bg-light">
                     <a class="navbar-brand" href="/">
-                        <img src={logoURL} width="30" height="30" class="d-inline-block align-top" alt="" />
+                        <img src={logoURL} width="30" height="30" style={imageStyle} class="d-inline-block align-top" alt="" />
                         Cove
                     </a>
                     <a class="nav-item dropdown">
@@ -47,8 +49,6 @@ class Home extends React.Component {
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="navbarDropdown">
                             <button class="dropdown-item" onClick={signOutUser}>Sign Out</button>
-                            <div class="dropdown-divider"></div>
-                            <button class="dropdown-item btn-danger" onClick={signOutUser}>Sign Out</button>
                         </div>
                     </a>
                 </nav>
@@ -59,7 +59,8 @@ class Home extends React.Component {
                             <PeoplePane></PeoplePane>
                         </div>
                         <div class="col-md">
-                            <PeoplePane></PeoplePane>
+                            <ChoresPane></ChoresPane>
+                            <button class="btn btn-secondary" onClick={reassignTasks}>Reassign</button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +82,11 @@ function testGetPeople() {
 //////////////////////////////////////////////////
 
 const containerStyle = {
-    marginTop: "60px",
+    marginTop: "40px",
+};
+
+const imageStyle = {
+    marginRight: "10px",
 };
 
 const logoURL = "https://image.flaticon.com/icons/svg/56/56930.svg";

@@ -2,6 +2,7 @@ import React from 'react';
 import {auth} from 'firebase';
 import { getPeople, getPeopleQuery, addPerson } from './../util/firestore';
 import { PersonItem } from './personItem';
+import { PersonModal } from './personModal';
 
 
 class PeoplePane extends React.Component {
@@ -10,8 +11,22 @@ class PeoplePane extends React.Component {
         super(props);
         this.state = {
             people: [],
-            modalPerson: null
+            modalPersonID: '',
+            modalPerson: {
+                name: 'defaultName',
+                token: 'defaultToken'
+            },
+            loading: true,
         };
+    }
+
+    updateModal(personID, person) {
+        this.setState({
+            people: this.state.people,
+            modalPersonID: personID,
+            modalPerson: person,
+            loading: this.state.loading,
+        });
     }
 
     componentDidMount() {
@@ -21,7 +36,10 @@ class PeoplePane extends React.Component {
                 const observer = query.onSnapshot(querySnapshot => {
                     const docs = querySnapshot.docs;
                     this.setState({
-                        people: docs
+                        people: docs,
+                        modalPersonID: this.state.modalPersonID,
+                        modalPerson: this.state.modalPerson,
+                        loading: false,
                     });
                     console.log(docs);
                 }, err => {
@@ -34,10 +52,14 @@ class PeoplePane extends React.Component {
     render() {
         return(
             <div>
+                <h1 class="display-6 text-left" style={headingStyle} >People</h1>
                 <ul class="list-group">
-                    {this.state.people.map((person,i) => {
-                        return (<PersonItem person={person.data()} documentID={person.id} index={i}/>);
-                    })}
+                    {this.state.loading == true
+                        ? <li class="list-group-item"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></li>
+                        : this.state.people.map((person,i) => {
+                            return (<PersonItem person={person.data()} documentID={person.id} index={i} showModal={this.updateModal.bind(this)}/>);
+                        })
+                    }
                 </ul>
                 <div class="input-group mb-3" style={inputGroupStyle}>
                     <div class="input-group-prepend">
@@ -52,6 +74,7 @@ class PeoplePane extends React.Component {
                         <button class="btn btn-primary" onClick={invitePerson} >Invite Member</button>
                     </div>
                 </div>
+                <PersonModal personID={this.state.modalPersonID} person={this.state.modalPerson} showModal={this.updateModal.bind(this)}/>
             </div>
         );
     }
@@ -62,18 +85,15 @@ function invitePerson() {
     addPerson(name);
 }
 
-function updateModal(person) {
-    this.setState({
-        people: this.state.people,
-        modalPerson: person
-    });
-}
-
 export {PeoplePane};
 
 //////////////////////////////////////////////////
 
 const inputGroupStyle = {
-    marginTop: "30px",
+    marginTop: "10px",
 };
 
+const headingStyle = {
+    marginTop: "20px",
+    marginBottom: "10px",
+};

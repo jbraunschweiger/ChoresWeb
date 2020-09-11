@@ -57,10 +57,12 @@ exports.createUser = functions.https.onCall((data, context) => {
             registered: true,
             token: 'new-placeholder-token',
             permanant: true,
+            created: admin.firestore.Timestamp.now(),
         };
         const choreData = {
             name: "Your First Chore",
             permanant: true,
+            created: admin.firestore.Timestamp.now(),
         };
         let promises = [];
         promises.push(admin.firestore().collection('users').doc(user.uid).collection('people').add(personData));
@@ -69,3 +71,31 @@ exports.createUser = functions.https.onCall((data, context) => {
     });
     return collectionPromise;
 });
+
+exports.assignTasks = functions.https.onCall((data, context) => {
+    let promises = [];
+    promises.push(admin.firestore().collection('users').doc(context.auth.uid).collection('people').get());
+    promises.push(admin.firestore().collection('users').doc(context.auth.uid).collection('chores').get());
+    return Promise.all(promises).then((snapshots) => {
+        let taskPromises = [];
+        let iteration = 0;
+        let people = snapshots[0].docs;
+        let chores = snapshots[1].docs;
+        
+        chores.forEach((chore, index) => {
+            const personIndex = (iteration + index)%(people.length); // modulus secret sauce
+            const choreID = chore.id;
+            const personID = people[personIndex].id;
+            const personName = people[personIndex].data().name;
+            taskData = {
+                choreID: choreID,
+                personID: personID,
+                personName: personName,
+                complete: false,
+                created: admin.firestore.Timestamp.now(),
+            }
+            taskPromises.push(admin.firestore().collection('users').doc(context.auth.uid).collection("chores").doc(choreID).collection("tasks").add(taskData));
+        });
+        return Promise.all(taskPromises).then(() => {return});
+    });
+})

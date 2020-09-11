@@ -11,4 +11,10 @@ async function initializeUser(email, password, displayName) {
     return createUser(userData);
 }
 
-export {initializeUser};
+async function reassignTasks() {
+    var assignTasks = functions().httpsCallable('assignTasks');
+    return assignTasks();
+}
+
+export { initializeUser };
+export { reassignTasks };
