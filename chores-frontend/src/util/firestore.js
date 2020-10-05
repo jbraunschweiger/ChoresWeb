@@ -39,7 +39,7 @@ async function addPerson(name) {
 
 function getChoresQuery(user) {
     if(user){
-        const query = db.collection("users").doc(user.uid).collection("chores");
+        const query = db.collection("users").doc(user.uid).collection("chores").orderBy("created");
         console.log('penis');
         return query;
     }
